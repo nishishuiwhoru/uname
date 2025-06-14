@@ -1,24 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J9E0EZT8S3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-J9E0EZT8S3');
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6390921160548399"
-     crossorigin="anonymous"></script>
-    
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Monster Mode - Play thousands of free HTML5 games online without downloads. Enjoy casual, action, sports, strategy and multiplayer games.">
     <link rel="canonical" href="https://monstermode.xyz">
     <title>Monster Mode - Free HTML5 Games Online | Play Instantly</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6390921160548399"
+     crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -104,6 +93,111 @@
             -webkit-text-fill-color: transparent;
         }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-J9E0EZT8S3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-J9E0EZT8S3', {
+        'custom_map': {
+          'dimension1': 'game_category',
+          'dimension2': 'game_difficulty',
+          'dimension3': 'game_completion_status',
+          'dimension4': 'user_device_type'
+        }
+      });
+
+      // Track game interactions
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track game card clicks
+        const gameCards = document.querySelectorAll('.game-card');
+        gameCards.forEach(card => {
+          card.addEventListener('click', function(e) {
+            const gameTitle = this.querySelector('h2').textContent;
+            const gameCategory = this.querySelector('.bg-apple-gray').textContent;
+            
+            gtag('event', 'game_click', {
+              'game_title': gameTitle,
+              'game_category': gameCategory,
+              'dimension1': gameCategory
+            });
+          });
+        });
+
+        // Track category navigation
+        const categoryButtons = document.querySelectorAll('.category-nav button');
+        categoryButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            gtag('event', 'category_select', {
+              'category_name': this.textContent.trim()
+            });
+          });
+        });
+
+        // Track newsletter signups
+        const newsletterForm = document.querySelector('form');
+        if (newsletterForm) {
+          newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            gtag('event', 'newsletter_signup', {
+              'email_domain': email.split('@')[1]
+            });
+          });
+        }
+
+        // Track social media clicks
+        const socialLinks = document.querySelectorAll('.fab');
+        socialLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            const platform = this.className.split('fa-')[1];
+            gtag('event', 'social_click', {
+              'platform': platform
+            });
+          });
+        });
+
+        // Track page performance
+        window.addEventListener('load', function() {
+          const perfData = window.performance.timing;
+          const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+          
+          gtag('event', 'timing_complete', {
+            'name': 'page_load',
+            'value': pageLoadTime,
+            'event_category': 'Performance'
+          });
+        });
+
+        // Track game iframe loads
+        const gameIframes = document.querySelectorAll('.iframe-container iframe');
+        gameIframes.forEach(iframe => {
+          iframe.addEventListener('load', function() {
+            const gameTitle = this.closest('.game-card').querySelector('h2').textContent;
+            gtag('event', 'game_load', {
+              'game_title': gameTitle,
+              'dimension4': navigator.userAgent.includes('Mobile') ? 'mobile' : 'desktop'
+            });
+          });
+        });
+      });
+
+      // Track scroll depth
+      let scrollDepthTriggered = new Set();
+      window.addEventListener('scroll', function() {
+        const scrollPercent = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100;
+        [25, 50, 75, 90].forEach(threshold => {
+          if (scrollPercent >= threshold && !scrollDepthTriggered.has(threshold)) {
+            scrollDepthTriggered.add(threshold);
+            gtag('event', 'scroll_depth', {
+              'depth': threshold
+            });
+          }
+        });
+      });
+    </script>
 </head>
 <body class="min-h-screen flex flex-col">
     <!-- Header -->
